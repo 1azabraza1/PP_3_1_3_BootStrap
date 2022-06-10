@@ -34,7 +34,7 @@ public class AdminController {
         model.addAttribute("user", userAuth);
         model.addAttribute("allRoles", allRoles);
         model.addAttribute("newUser", new User());
-        return "users";
+        return "admin";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/create")

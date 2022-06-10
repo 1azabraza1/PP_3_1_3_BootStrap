@@ -18,15 +18,16 @@ import java.util.List;
 @Transactional
 @Service
 public class UserServiceImpl implements UserService {
-
-    @Autowired
     private UserJpaRepository userJpaRepository;
-
-    @Autowired
     private RoleJpaRepository roleJpaRepository;
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    @Autowired
+    public UserServiceImpl(UserJpaRepository userJpaRepository, RoleJpaRepository roleJpaRepository,
+                           BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userJpaRepository = userJpaRepository;
+        this.roleJpaRepository = roleJpaRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userJpaRepository.findByName(username);
