@@ -15,12 +15,13 @@ import ru.kata.spring.boot_security.demo.repository.UserJpaRepository;
 
 import java.util.List;
 
-@Transactional
+
 @Service
 public class UserServiceImpl implements UserService {
     private UserJpaRepository userJpaRepository;
     private RoleJpaRepository roleJpaRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
     public UserServiceImpl(UserJpaRepository userJpaRepository, RoleJpaRepository roleJpaRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService {
         this.roleJpaRepository = roleJpaRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userJpaRepository.findByName(username);
@@ -44,18 +46,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userJpaRepository.save(user);
     }
 
     @Override
-    public void updateUser(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userJpaRepository.save(user);
-    }
-
-    @Override
+    @Transactional
     public void delete(Long id) {
         User user = userJpaRepository.findById(id).get();
         user.setRoles(null);
